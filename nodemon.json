@@ -9,7 +9,7 @@
         "src/"
     ],
     "execMap": {
-        "ts": "npx ts-node src/index.ts"
+        "ts": "npx ts-node"
     },
     "env": {
         "NODE_ENV": "development"
