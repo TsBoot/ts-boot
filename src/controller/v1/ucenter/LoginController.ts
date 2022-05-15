@@ -29,7 +29,10 @@ export default class LoginController extends BaseController {
     if (!user) {
       throw new AppError("用户不存在");
     }
-    if (verifyPassword(body.password, user.password)) {
+    if (!user.password) {
+      throw new AppError("用户没有设置密码，请通过其它方式登陆，或设置密码后重试");
+    }
+    if (await verifyPassword(body.password, user.password)) {
       const token = signToken(user);
       return this.success({ token });
     } else {
@@ -58,7 +61,7 @@ export default class LoginController extends BaseController {
     if (user) {
       throw new AppError("用户已经注册");
     }
-    body.password = signPasswordHash(body.password);
+    body.password = await signPasswordHash(body.password);
 
     const userService = Container.get(UserService);
     user = await userService.save(body);

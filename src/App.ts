@@ -1,6 +1,6 @@
 import "./utils/dotenv";
 
-const { REDIS_ENABLE, WEB_SOCKET_ENABLE, WEB_SERVER_ENABLE, WEB_SERVER_PORT, WEB_SOCKET_PORT } = process.env;
+const { REDIS_ENABLE, WEB_SOCKET_ENABLE, WEB_SERVER_ENABLE, WEB_SERVER_PORT, WEB_SOCKET_PORT, MYSQL_ENABLE } = process.env;
 
 import KoaBodyparser from "koa-bodyparser";
 import KoaStatic from "koa-static";
@@ -26,7 +26,9 @@ export default class App {
   async start () : Promise<void> {
 
     // 初始化数据库
-    Container.get(MysqlManager).initialize();
+    if (MYSQL_ENABLE === "true" || MYSQL_ENABLE === "1") {
+      Container.get(MysqlManager).initialize();
+    }
 
     // 初始化Redis
     if (REDIS_ENABLE === "true" || REDIS_ENABLE === "1") {

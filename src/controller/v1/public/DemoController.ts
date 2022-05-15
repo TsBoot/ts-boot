@@ -10,6 +10,7 @@ import { snowflakeGenerator } from "../../../utils/snowflake";
 import metaRouter from "../../../router/metaRouter";
 import getBilibiliRoomInfo from "../../../device/request/platform_1/list/getBilibiliRoomInfo";
 import RedisManager from "../../../device/client/redis/RedisManager";
+import { signPasswordHash, verifyPassword } from "../../../utils/signPassword";
 
 const { Post, Get, Controller } = metaRouter;
 
@@ -318,6 +319,18 @@ export default class DemoController extends BaseController {
     return this.success(res);
   }
 
-
+  /**
+   * 密码签名，与验签
+   */
+  @Get()
+  async signPassword () : Promise<any> {
+    const password = "123456";
+    const hash = await signPasswordHash(password);
+    return this.success({
+      password,
+      signPassword: hash,
+      verifyPassword: await verifyPassword(password, hash),
+    });
+  }
 }
 

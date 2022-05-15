@@ -1,16 +1,9 @@
-import bcrypt from "bcrypt";
+import bcrypt from "@node-rs/bcrypt";
 
-const saltRounds = 10;
-
-export function signPasswordHash (password : string) : string {
-  const salt = bcrypt.genSaltSync(saltRounds);
-  const hash = bcrypt.hashSync(password, salt);
-  return hash;
+export function signPasswordHash (password : string) : Promise<string> {
+  return bcrypt.hash(password);
 }
 
-export function verifyPassword (password : string | Buffer, hash : string | undefined) : string | boolean {
-  if (password && hash) {
-    return bcrypt.compareSync(password.toString(), hash);
-  }
-  return false;
+export function verifyPassword (password : string | Buffer, hash : string) : Promise<boolean> {
+  return bcrypt.compare(password.toString(), hash);
 }
