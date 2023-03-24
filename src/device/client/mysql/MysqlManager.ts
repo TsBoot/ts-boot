@@ -3,6 +3,7 @@ import { Connection, ConnectionOptions, createConnection, getConnectionOptions }
 import { Service } from "typedi";
 
 import User from "./entity/User";
+import Article from "./entity/Article";
 
 @Service()
 export default class MysqlManager {
@@ -20,6 +21,7 @@ export default class MysqlManager {
         password: process.env.DB_PASS,
         entities: [
           User,
+          Article,
         ],
       },
     ) as ConnectionOptions;

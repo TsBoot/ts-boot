@@ -7,6 +7,8 @@ import metaRouter from "./metaRouter";
 import "../controller/v1/public/DemoController"; // 示例代码
 import "../controller/v1/public/MataRouterController"; // 路由测试代码
 import "../controller/v1/ucenter/LoginController"; // 登录控制器
+import "../controller/v1/ucenter/ArticleController"; // 登录控制器
+import "../controller/v1/public/ArticleController"; // 登录控制器
 // import "../controller/v1/ucenter/OrderController"; // 订单控制器
 metaRouter.router.stack.forEach(i => {
   console.log(i.path);

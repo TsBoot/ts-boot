@@ -49,9 +49,9 @@ export default class LoginController extends BaseController {
       this.ctx.request.body.nickName = "";
     }
     body = {
-      userName: body.userName,
-      password: body.password,
-      nickName: body.nickName,
+      userName: body.userName.trim(),
+      password: body.password.trim(),
+      nickName: body.nickName.trim(),
     };
 
     if (!body.userName) throw new AppError("用户名必须填写");
