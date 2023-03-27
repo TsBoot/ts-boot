@@ -1,6 +1,7 @@
 import {
-  BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn,
+  BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToMany,
 } from "typeorm";
+import Article from "./Article";
 import { UserStatus } from "./enum";
 
 
@@ -23,4 +24,7 @@ export default class User extends BaseEntity {
 
   @CreateDateColumn({ length: 0, comment: "创建时间" })
   createTime! : Date;
+
+  @OneToMany(() => Article, (article) => article.user)
+  articles ! : Article[];
 }

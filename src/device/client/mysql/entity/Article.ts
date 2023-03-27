@@ -1,8 +1,9 @@
 import {
-  BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToMany, JoinTable,
+  BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToMany, JoinTable, ManyToOne,
 } from "typeorm";
 import Category from "./Category";
 import { ArticleType, ArticleStatus } from "./enum";
+import User from "./User";
 
 
 @Entity()
@@ -25,8 +26,12 @@ export default class Article extends BaseEntity {
   @Column({ type: "enum", enum: ArticleType, comment: "文章类型" })
   type : string = "";
 
-  @Column({ unsigned: true, comment: "作者id" })
-  user_id : number = 0;
+
+  @ManyToOne(() => User, (user) => user.articles)
+  user ! : User;
+
+
+
   /**
    * 多对多，文章分类
    */

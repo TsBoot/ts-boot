@@ -52,4 +52,9 @@ export default class ArticleController extends BaseController {
 
     // if (query.id === undefined || isNaN(Number(query.id))) throw new AppError("ID不能为空");
   }
+
+  /**
+   * 根据类型查询文章列表
+   */
+
 }

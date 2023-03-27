@@ -3,6 +3,7 @@ import { Raw } from "typeorm";
 import Article from "../device/client/mysql/entity/Article";
 import Category from "../device/client/mysql/entity/Category";
 import { ArticleType, ArticleStatus } from "../device/client/mysql/entity/enum/index";
+import User from "../device/client/mysql/entity/User";
 
 @Service()
 export default class ArticleService {
@@ -14,7 +15,7 @@ export default class ArticleService {
     content : string,
     cover_img : string
     type : ArticleType
-    user_id : number
+    user : User
     categorys : Category[]
     status : ArticleStatus
     create_time : Date
@@ -24,6 +25,7 @@ export default class ArticleService {
 
 
 
+    console.log(article);
 
 
     return repo.save(article);

@@ -6,9 +6,9 @@ import { AppError } from "../../../middleware/errorHandler";
 import decodeToken from "../../../middleware/decodeToken";
 import stringLength from "string-length";
 import { ArticleType, ArticleStatus } from "../../../device/client/mysql/entity/enum";
-import Category from "../../../device/client/mysql/entity/Category";
 import CategoryService from "../../../service/CategoryService";
 import isarray from "isarray";
+import UserService from "../../../service/UserService";
 
 const { Post, Controller } = metaRouter;
 
@@ -28,8 +28,6 @@ export default class ArticleController extends BaseController {
     if (stringLength(body.title) > 255) throw new AppError("标题字数不能大于255");
     if (stringLength(body.description) > 255) throw new AppError("文章简介字数不能大于255");
     if (body.id !== undefined && isNaN(Number(body.id))) throw new AppError("ID格式有误");
-    console.log(body);
-
 
     if (!isarray(body.categories)) {
       throw new AppError("分类id必须是数组");
@@ -45,13 +43,18 @@ export default class ArticleController extends BaseController {
     }
     const categoryService = Container.get(CategoryService);
     const categories = await categoryService.findByIds(body.categories);
+    const userService = Container.get(UserService);
+
+    const user = await userService.getUserById(token.id);
+    if (!user) throw new AppError("token有误，保存失败");
+
     body = {
       title: body.title.trim(),
       content: body.content,
       description: body.description.trim(),
       type: body.type.toUpperCase() === "MD" ? ArticleType.MarkDown : ArticleType.HTML,
       cover_img: {},
-      user_id: token.id,
+      user,
       categories: categories,
     };
 
