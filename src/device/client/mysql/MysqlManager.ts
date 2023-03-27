@@ -4,6 +4,7 @@ import { Service } from "typedi";
 
 import User from "./entity/User";
 import Article from "./entity/Article";
+import Category from "./entity/Category";
 
 @Service()
 export default class MysqlManager {
@@ -22,6 +23,7 @@ export default class MysqlManager {
         entities: [
           User,
           Article,
+          Category,
         ],
       },
     ) as ConnectionOptions;

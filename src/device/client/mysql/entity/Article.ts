@@ -1,6 +1,7 @@
 import {
-  BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn,
+  BaseEntity, Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToMany, JoinTable,
 } from "typeorm";
+import Category from "./Category";
 import { ArticleType, ArticleStatus } from "./enum";
 
 
@@ -26,6 +27,12 @@ export default class Article extends BaseEntity {
 
   @Column({ unsigned: true, comment: "作者id" })
   user_id : number = 0;
+  /**
+   * 多对多，文章分类
+   */
+  @ManyToMany(() => Category)
+  @JoinTable()
+  categories! : Category[];
 
   @Column({ type: "enum", enum: ArticleStatus, comment: "文章状态" })
   status : ArticleStatus = ArticleStatus.Draft;
@@ -35,4 +42,5 @@ export default class Article extends BaseEntity {
 
   @CreateDateColumn({ length: 0, comment: "发布时间" })
   publish_time! : Date;
+
 }
